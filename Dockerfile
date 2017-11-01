@@ -1,4 +1,4 @@
-FROM owasp/zap2docker-weekly
+FROM owasp/zap2docker-stable
 MAINTAINER Thomas Hartmann <thomas@netcentric.biz>
 
 
@@ -24,7 +24,10 @@ RUN cd /opt && \
 
 RUN pip install selenium==3.5.0
 RUN pip install pyvirtualdisplay
+RUN pip install six
 
+COPY zap_common.py /zap/
 COPY zap-baseline-custom.py /zap/
+COPY zap-full-scan.py /zap/
 
-RUN chown zap:zap /zap/zap-baseline-custom.py && chmod +x /zap/zap-baseline-custom.py
+RUN chown zap:zap /zap/zap* && chmod +x /zap/zap*

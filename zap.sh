@@ -15,10 +15,16 @@ function dockerid(){
 	echo $(docker ps | grep -e $IMAGE_NAME -e "Up" | awk '{print $1}')
 }
 
+function zapBaselineFull(){
+	#ARGUMENTS="--rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME $BASELINESCRIPT -r report.html -g rule.conf -d -m 5 -t http://localhost:6201 --active_scan"
+ 	#echo $(docker run $ARGUMENTS)
+ 	docker run --rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME zap-full-scan.py -r report.html -g base.conf -d -m 1 -a -t "https://public-firing-range.appspot.com/reflected/index.html"
+}
+
 function zapBaseline(){
 	#ARGUMENTS="--rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME $BASELINESCRIPT -r report.html -g rule.conf -d -m 5 -t http://localhost:6201 --active_scan"
  	#echo $(docker run $ARGUMENTS)
- 	docker run --rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME $BASELINESCRIPT -r report.html -g base.conf -d -m 5 -t "https://public-firing-range.appspot.com/reflected/index.html" --active_scan
+ 	docker run --rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME $BASELINESCRIPT -r report.html -g base.conf -d -m 1 -a -t "https://public-firing-range.appspot.com/reflected/index.html"
 }
 
 function zapPlain(){
@@ -37,6 +43,11 @@ case "$1" in
 		#CONTAINERID=$(zap)
 		#echo "running $CONTAINERID"
 		echo "$(zapBaseline)"
+		;;
+	fullscan)
+		#CONTAINERID=$(zap)
+		#echo "running $CONTAINERID"
+		echo "$(zapBaselineFull)"
 		;;
 	run)
 		#CONTAINERID=$(zap)
