@@ -9,6 +9,8 @@ IMAGE_NAME='netcentric/zap-aem'
 HOST_PORT="44444"
 CONTAINER_PORT=$HOST_PORT
 BASELINESCRIPT="zap-baseline-custom.py"
+TARGET1="http://www.webscantest.com/"
+TARGET2="https://public-firing-range.appspot.com/reflected/index.html"
 
 
 function dockerid(){
@@ -18,13 +20,13 @@ function dockerid(){
 function zapBaselineFull(){
 	#ARGUMENTS="--rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME $BASELINESCRIPT -r report.html -g rule.conf -d -m 5 -t http://localhost:6201 --active_scan"
  	#echo $(docker run $ARGUMENTS)
- 	docker run --rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME zap-full-scan.py -r report.html -g base.conf -d -m 1 -a -t "https://public-firing-range.appspot.com/reflected/index.html"
+ 	docker run --rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME zap-full-scan.py -r report.html -g base.conf -d -m 1 -a -t TARGET1
 }
 
 function zapBaseline(){
 	#ARGUMENTS="--rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME $BASELINESCRIPT -r report.html -g rule.conf -d -m 5 -t http://localhost:6201 --active_scan"
  	#echo $(docker run $ARGUMENTS)
- 	docker run --rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME $BASELINESCRIPT -r report.html -g base.conf -d -m 1 -a -t "https://public-firing-range.appspot.com/reflected/index.html"
+ 	docker run --rm -v $(pwd):/zap/wrk/:rw -t $IMAGE_NAME $BASELINESCRIPT -r report.html -g base.conf -d -m 1 -a -t TARGET1
 }
 
 function zapPlain(){
